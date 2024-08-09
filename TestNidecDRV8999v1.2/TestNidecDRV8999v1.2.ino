@@ -1,4 +1,4 @@
-#include <Button.h>
+//#include <Button.h>
 #include "FuntionSPI.h"
 
 void setup() {
@@ -149,6 +149,10 @@ void setup() {
     SPI_writeRegister(SPI_REG_CTRL4,n_fault_setting,SCS10);
 
  check_err();*/
+    for(int i=1;i<=10;i++)//Chạy từng tự Driver 1 đến 5
+  {
+      Sleep(i,true);
+  }
 }
 int No=1;
 void loop(void) {
@@ -160,10 +164,23 @@ void loop(void) {
   bool InPut= digitalRead(ExtX1);//Đổi chân Input
   Serial.print("Input : ");
   Serial.println(InPut);
-  
+
   for(int i=1;i<=5;i++)//Chạy từng tự Driver 1 đến 5
   {
-    RunStepper(i, Steps, _delay );
-    delay(2000);
+     // Sleep(i,true);
+   digitalWrite(DIR,HIGH);
+   Step(Steps,_delay);
+   check_err();
+   digitalWrite(MOTOR_ON,1);
+   delay(1000);
+   digitalWrite(MOTOR_ON,0);
+   digitalWrite(DIR,LOW);
+   Step(Steps,_delay);
+   digitalWrite(MOTOR_ON,1);
+   delay(1000);
+   digitalWrite(MOTOR_ON,1);
+   delay(100);
+  // Sleep(i,false);
+ 
   }
 }
